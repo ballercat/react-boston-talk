@@ -1,4 +1,4 @@
-test.only("assertions after done() callback - 1", done => {
+test("assertions after done() callback - 1", done => {
   setTimeout(() => {
     done();
     setTimeout(() => {
@@ -8,7 +8,7 @@ test.only("assertions after done() callback - 1", done => {
   });
 });
 
-test.only("assertions after done() callback - 2", done => {
+test("assertions after done() callback - 2", done => {
   // This should fail
   expect.hasAssertions();
   setTimeout(() => {
