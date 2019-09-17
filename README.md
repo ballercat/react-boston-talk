@@ -1,13 +1,4 @@
-# Async Test Handbook - Talk
+# Talk
 
-LINK: https://async-test-handbook.ballercat.now.sh
+Come back later, or not. Whatever.
 
-Talk about async testing and how to write non-flaky async tests.
-
-## Install
-
-`yarn`
-
-## Run
-
-`yarn run start`
