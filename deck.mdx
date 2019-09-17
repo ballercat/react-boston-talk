@@ -1,0 +1,87 @@
+import { Appear, Image } from "mdx-deck";
+import { Split, SplitRight } from "mdx-deck/layouts";
+import { CodeSurfer } from "mdx-deck-code-surfer";
+import { range } from "./helpers";
+
+export { swiss as theme } from "mdx-deck/themes";
+
+# Tests
+
+_"Short story about a practical method to help Engineers write non-flaky tests"_
+
+---
+
+# About
+
+- Wayfair Frontend Auxiliary Engineering
+- Parter with other teams to build new UIs
+- Education
+- Pair programming and TDD
+
+---
+
+# Flaky tests are not useful
+
+> "Non-deterministic tests have two problems, firstly they are useless, secondly they are a virulent infection that can completely ruin your entire test suite."
+
+- Martin Fowler
+
+---
+
+# False positive tests are dangerous
+
+- No obvious issues
+- Potentially harmful code
+- Breaks other tests
+- Insanely difficult to track down
+- How do help others avoid making mistakes?
+
+---
+
+<CodeSurfer
+  title="Example"
+  code={require("!raw-loader!./snippets/example-1.js").default}
+  lang="javascript"
+  dark={false}
+  steps={[
+    { notes: "The simplest of tests could lead to false positives" },
+    { notes: "Why is this even a problem?" },
+    { notes: "No assertions could be performed" }
+  ]}
+/>
+
+---
+
+<CodeSurfer
+  title="yeah but no one writes tests like THAT"
+  code={require("!raw-loader!./snippets/example-1.2.js").default}
+  lang="javascript"
+  dark={false}
+  steps={[{ notes: "Sure we do" }]}
+/>
+
+---
+
+<CodeSurfer
+  title="Easy! Add expect.hasAssertions()!"
+  code={require("!raw-loader!./snippets/example-1.3.js").default}
+  lang="javascript"
+  dark={false}
+/>
+
+---
+
+# Not so fast
+
+- Most test modules contain more than a single test
+- Most useful tests involve async logic
+- Async logic coupled with React components
+- Async React is crazy difficult to reason about, non-intuitive
+
+---
+
+---
+
+# Conclusion
+
+- Source: https://github.com/ballercat/practical-async-test-talk

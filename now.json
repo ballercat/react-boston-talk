@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "react-boston-talk",
+  "builds": [
+    {"src": "package.json", "use": "@now/static-build" }
+  ],
+  "routes": [
+    { "src": "^/resources/(.*)", "dest": "/resources/$1" },
+    { "src": "^/snippets/(.*)", "dest": "/snippets/$1" },
+    { "src": "index.html", "dest": "/index.html" }
+  ]
+}

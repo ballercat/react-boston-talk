@@ -1,0 +1,23 @@
+{
+  "name": "react-boston-talk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Arthur Buldauskas arthurbuldauskas@gmail.com",
+  "scripts": {
+    "start": "mdx-deck deck.mdx",
+    "now-build": "mdx-deck build deck.mdx --no-html && cp -r resources dist/ && cp -r snippets dist/"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "mdx-deck": "1.10.0"
+  },
+  "prettier": {
+    "quotes": "single"
+  },
+  "dependencies": {
+    "mdx-deck-code-surfer": "^0.5.5",
+    "prettier": "^1.17.0",
+    "raw-loader": "^2.0.0",
+    "styled-components": "^4.2.0"
+  }
+}
