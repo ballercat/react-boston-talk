@@ -5,18 +5,21 @@ import { range } from "./helpers";
 
 export { swiss as theme } from "mdx-deck/themes";
 
-# Tests
+# Jest in strict mode
 
-_"Short story about a practical method to help Engineers write non-flaky tests"_
+_Finding and preventing flaky tests_
 
 ---
 
 # About
 
-- Wayfair Frontend Auxiliary Engineering
-- Parter with other teams to build new UIs
+- @ballercat Twitter/GitHub
+- Side projects, WebAssembly
+- Wayfair
+- Frontend Auxiliary Engineering
+- Partner with other teams to build new UIs
 - Education
-- Pair programming and TDD
+- Pair programming/TDD
 
 ---
 
@@ -38,8 +41,17 @@ _"Short story about a practical method to help Engineers write non-flaky tests"_
 
 ---
 
+# It's difficult to get tests _right_
+
+- Trial and error to develop a "feel for it"
+- Both for junior and senior devs
+- Asynchronous logic is not intuitive
+- No tooling to aid you along the way
+
+---
+
 <CodeSurfer
-  title="Example"
+  title="Basic example"
   code={require("!raw-loader!./snippets/example-1.js").default}
   lang="javascript"
   dark={false}
@@ -63,10 +75,15 @@ _"Short story about a practical method to help Engineers write non-flaky tests"_
 ---
 
 <CodeSurfer
-  title="Easy! Add expect.hasAssertions()!"
+  title="just add expect.hasAssertions()"
   code={require("!raw-loader!./snippets/example-1.3.js").default}
   lang="javascript"
   dark={false}
+  steps={[
+    { notes: "Can be done by asserting on the length of the array" },
+    { notes: "expect.hasAssertions() will catch the cases with no elements" },
+    { notes: "Would be nice if there was a jest config option for this" }
+  ]}
 />
 
 ---
@@ -74,18 +91,20 @@ _"Short story about a practical method to help Engineers write non-flaky tests"_
 # Not so fast
 
 - Most test modules contain more than a single test
-- Most useful tests involve async logic
-- Async logic coupled with React components
-- Async React is crazy difficult to reason about, non-intuitive
+- Most useful tests involve async logic with React
+- Async callbacks can and will escape a test!
 
 ---
 
 <CodeSurfer
-  title="Let's turn it up a notch"
+  title="Let's turn it up to 100"
   code={require("!raw-loader!./snippets/example-2.js").default}
   lang="javascript"
   dark={false}
-  steps={[{ notes: "What happens here?" }]}
+  steps={[
+    { notes: "What happens here?" },
+    { notes: "https://github.com/facebook/jest/issues/8297" }
+  ]}
 />
 
 ---
@@ -98,16 +117,34 @@ _"Short story about a practical method to help Engineers write non-flaky tests"_
 
 ---
 
-# But why?
+# What did we do about it?
 
-- `expect()` is a global
-- Jest does a lot internally to work around this
-- Read more here [jest/issues/8297](https://github.com/facebook/jest/issues/8297)
+- Stress about it, a lot
+- Use the Zone.js library
+- `jest-plugin-must-assert` patches the jest API
+- Captures errand async callbacks, ensures assertions happen
 
 ---
+
+# Add the plugin to your Jest config
+
+![](./resources/usage.png)
+
+---
+
+![](./resources/plugin-result.png)
 
 ---
 
 # Conclusion
 
-- Source: https://github.com/ballercat/practical-async-test-talk
+- Correct test results!
+- Detects flaky and false positive tests
+- Gives the developer immediate feedback on test quality
+- Prevents new flaky tests from entering the system
+
+---
+
+# Source & Links
+
+- https://github.com/ballercat/react-boston-talk
