@@ -82,7 +82,9 @@ _Finding and preventing flaky tests_
   steps={[
     { notes: "Can be done by asserting on the length of the array" },
     { notes: "expect.hasAssertions() will catch the cases with no elements" },
-    { notes: "Would be nice if there was a jest config option for this" }
+    { notes: "Would be nice if there was a jest config option for this" },
+    { notes: "There is an issue for this and it's not going to happen" },
+    { notes: "Decided to write a plugin for this" }
   ]}
 />
 
@@ -117,24 +119,78 @@ _Finding and preventing flaky tests_
 
 ---
 
-# What did we do about it?
-
-- Stress about it, a lot
-- Use the Zone.js library
-- `jest-plugin-must-assert` patches the jest API
-- Captures errand async callbacks, ensures assertions happen
+<CodeSurfer
+  title="A demonstration"
+  code={require("!raw-loader!./snippets/example-2.js").default}
+  lang="javascript"
+  dark={false}
+  steps={[
+    { notes: "Let's see what happens" },
+    { lines: [2], notes: "First setTimeout executes" },
+    { lines: [3], notes: "The first test completes here, (it passes)" },
+    { lines: [4], notes: "Another async task is scheduled" },
+    {
+      lines: [13],
+      notes: "Next test starts running, we expect some assertions to run"
+    },
+    {
+      lines: [14],
+      notes: "Yet another async task is scheduled to end the second test"
+    },
+    {
+      lines: [6],
+      notes: "An assertion is executed from the old callback, 2nd test fails"
+    },
+    {
+      lines: [15],
+      notes: "The second test done() is invoked, ending the test"
+    },
+    {
+      notes: "Jest is just trying to do it's best to fix a poor global API"
+    }
+  ]}
+/>
 
 ---
 
-# Add the plugin to your Jest config
+# What do?
+
+- Stress about it, a lot
+- Use the Zone.js library
+
+---
+
+# Zone.js?
+
+- Async context
+- Can be used to "wrap" a function, like a test for example
+- We can then intercept all async tasks
+
+---
+
+# jest-plugin-must-assert
+
+- Wraps/patches the Jest API
+- Captures errand async callbacks, ensures assertions happen
+- If the test is active, async tasks continue, blocked otherwise
+- Logs warnings to the console, with stack traces
+
+---
+
+# Using the plugin
 
 ![](./resources/usage.png)
 
 ---
 
-![](./resources/plugin-result.png)
+# Demo
 
 ---
+
+# Alternatives
+
+- No global APIs
+- The avajs approach
 
 # Conclusion
 
@@ -145,6 +201,8 @@ _Finding and preventing flaky tests_
 
 ---
 
-# Source & Links
+# References
 
-- https://github.com/ballercat/react-boston-talk
+- This talk -> https://github.com/ballercat/react-boston-talk
+- Jest plugin -> https://github.com/ballercat/jest-plugin-must-assert
+- Zone.js -> https://github.com/angular/angular/tree/master/packages/zone.js
