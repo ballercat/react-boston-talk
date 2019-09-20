@@ -37,7 +37,6 @@ _Finding and preventing flaky tests_
 - Potentially harmful code
 - Breaks other tests
 - Insanely difficult to track down
-- How do help others avoid making mistakes?
 
 ---
 
@@ -46,7 +45,8 @@ _Finding and preventing flaky tests_
 - Trial and error to develop a "feel for it"
 - Both for junior and senior devs
 - Asynchronous logic is not intuitive
-- No tooling to aid you along the way
+- Tooling can fall short
+- How do help others?
 
 ---
 
@@ -75,16 +75,22 @@ _Finding and preventing flaky tests_
 ---
 
 <CodeSurfer
-  title="just add expect.hasAssertions()"
+  title="add expect.hasAssertions()"
   code={require("!raw-loader!./snippets/example-1.3.js").default}
   lang="javascript"
   dark={false}
   steps={[
     { notes: "Can be done by asserting on the length of the array" },
-    { notes: "expect.hasAssertions() will catch the cases with no elements" },
-    { notes: "Would be nice if there was a jest config option for this" },
-    { notes: "There is an issue for this and it's not going to happen" },
-    { notes: "Decided to write a plugin for this" }
+    {
+      lines: [2],
+      notes: "expect.hasAssertions() will catch the cases with no elements"
+    },
+    {
+      lines: [2],
+      notes: "Would be nice if there was a jest config option for this"
+    },
+    { lines: [2], notes: "https://github.com/facebook/jest/issues/2209" },
+    { notes: "Decided to write a plugin for this jest-plugin-must-assert" }
   ]}
 />
 
@@ -92,6 +98,7 @@ _Finding and preventing flaky tests_
 
 # Not so fast
 
+- Originally just wanted to check for runtime assertions
 - Most test modules contain more than a single test
 - Most useful tests involve async logic with React
 - Async callbacks can and will escape a test!
@@ -103,10 +110,7 @@ _Finding and preventing flaky tests_
   code={require("!raw-loader!./snippets/example-2.js").default}
   lang="javascript"
   dark={false}
-  steps={[
-    { notes: "What happens here?" },
-    { notes: "https://github.com/facebook/jest/issues/8297" }
-  ]}
+  steps={[{ notes: "What happens here?" }]}
 />
 
 ---
@@ -115,12 +119,8 @@ _Finding and preventing flaky tests_
 
 ---
 
-![](./resources/explained.png)
-
----
-
 <CodeSurfer
-  title="A demonstration"
+  title="But how?"
   code={require("!raw-loader!./snippets/example-2.js").default}
   lang="javascript"
   dark={false}
@@ -157,6 +157,10 @@ _Finding and preventing flaky tests_
 
 - Stress about it, a lot
 - Use the Zone.js library
+
+---
+
+![](./resources/explained.png)
 
 ---
 
