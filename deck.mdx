@@ -48,30 +48,15 @@ _Finding and preventing flaky tests_
 ---
 
 <CodeSurfer
-  title="Basic example"
-  code={require("!raw-loader!./snippets/example-1.js").default}
-  lang="javascript"
-  dark={false}
-  steps={[
-    { notes: "The simplest of tests could lead to false positives" },
-    { notes: "Why is this even a problem?" },
-    { lines: [3, 5], notes: "What if to results are returned" },
-    { lines: [6], notes: "No assertions will be performed" },
-    { notes: "In jest, if a test does not throw, it passes " }
-  ]}
-/>
-
----
-
-<CodeSurfer
-  title="yeah but no one writes tests like THAT"
+  title="Happens with React tests"
   code={require("!raw-loader!./snippets/example-1.2.js").default}
   lang="javascript"
   dark={false}
   steps={[
-    { notes: "Sure we do" },
+    { notes: "Fairly common problem" },
     { lines: [4, 5], notes: "If no cards are found..." },
-    { lines: [6], notes: "No assertions execute" }
+    { lines: [6], notes: "No assertions execute" },
+    { notes: "In jest, if a test does not throw, it passes " }
   ]}
 />
 
@@ -90,30 +75,34 @@ _Finding and preventing flaky tests_
     },
     {
       lines: [2],
-      notes: "Would be nice if there was a jest config option for this"
+      notes: "Needed to support over 10k existing tests at the time"
+    },
+    {
+      lines: [2],
+      notes: "Would be great to have Jest support it via a config"
     },
     { lines: [2], notes: "https://github.com/facebook/jest/issues/2209" },
-    { notes: "Need to support over 10k existing tests at the time" },
-    { notes: "Decided to write a plugin for this jest-plugin-must-assert" }
+    { notes: "Decided to write a plugin jest-plugin-must-assert instead" }
   ]}
 />
 
 ---
 
 <CodeSurfer
-  title="Not so simple after all"
+  title="Simple async mistake"
   code={require("!raw-loader!./snippets/example-4.js").default}
   lang="javascript"
   dark={false}
   steps={[
+    { notes: "The .then() should be returned" },
     { notes: "Test, passes. Because assertion is counted" },
-    { lines: [5], notes: "Assertion fails, but does not fail the test!" }
+    { lines: [6], notes: "Assertion fails, but does not fail the test!" }
   ]}
 />
 
 ---
 
-# Not so simple after all
+# Not so simple to catch
 
 - Originally found about 1% of tests to be flaky/false-positive
 - Most useful tests involve async logic with React
@@ -153,7 +142,8 @@ _Finding and preventing flaky tests_
 # Why Zone.js?
 
 - Async context
-- Can be used to "wrap" a function, like a test for example
+- Zones wrap functions to track context
+- Tests are just functions
 - We can then intercept all async tasks
 
 ---
@@ -161,7 +151,7 @@ _Finding and preventing flaky tests_
 # jest-plugin-must-assert
 
 - Wraps/patches the Jest API
-- If the test is active, async tasks continue, blocked otherwise
+- If the test is active, async tasks continue, ignored otherwise
 - Logs warnings to the console, with stack traces
 
 ---
